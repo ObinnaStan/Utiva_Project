@@ -1,0 +1,47 @@
+SELECT * FROM products;
+SELECT * FROM customers;
+
+ALTER TABLE products
+	RENAME COLUMN unitprice TO current_unit_price;
+
+CREATE VIEW NorthWind_Data AS (	
+SELECT
+	c.categoriesid,
+	c.categoryname,
+	p.productid,
+	p.productname,
+	p.current_unit_price,
+	p.discontinued,
+	od.unitprice,
+	od.quantity,
+	od.discount,
+	o.*,
+	cus.contactname,
+	cus.city,
+	cus.country,
+	s.companyname
+FROM
+categories AS c
+INNER JOIN
+products AS p
+ON
+c.categoriesid = p.categoryid
+INNER JOIN
+order_details AS od
+ON
+p.productid = od.productid
+INNER JOIN
+orders AS o
+ON
+od.orderid = o.orderid
+INNER JOIN
+customers AS cus
+ON
+o.customerid = cus.customerid
+INNER JOIN 
+shippers AS s
+ON
+o.shipperid = s.shipperid
+	);
+
+SELECT * FROM NorthWind_Data;
